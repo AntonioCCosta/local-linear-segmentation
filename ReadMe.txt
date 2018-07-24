@@ -6,9 +6,9 @@ To run the segmentation algorithm, the following steps must be followed:
 - cython, scikit-learn, h5py
 
 
-2. - run the ‘setup.py’ file which compiles the ‘LLSA_calculations.pyx’ cython script
+2. - run the “setup.py” file which compiles the “LLSA_calculations.pyx” cython script
 
-python setup.py build_ext —inplace
+python setup.py build_ext   inplace
 
 
 In order to the able to run the .ipynb tutorials, you’ll also need jupyter and seaborn.
