@@ -15,7 +15,7 @@ To run the segmentation algorithm, the following steps must be followed:
 python setup.py build_ext --inplace
 
 
-In order to the able to run the .ipynb tutorials, you?ll also need jupyter and seaborn.
+In order to the able to run the .ipynb tutorials, you'll also need jupyter and seaborn.
 
 
 (a) - 'SegmentingHO.ipynb' and (b) - 'SegmentingWormBehavior.ipynb' are two complementary tutorials on how to apply the adaptive locally-linear segmentation. In (a), a toy time series is segmented and hierarchical clustering is applied to obtain the original model parameters. In (b), a sample C. elegans "eigenworm" time series is analysed, in which the worm is subject to a heat shock to the head that triggers an escape response. The sampled time series start at the initiation of the escape response (a sample video can be found in 'EscapeResponse.mp4')
