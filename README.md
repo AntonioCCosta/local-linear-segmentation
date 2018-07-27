@@ -1,12 +1,12 @@
 # local-linear-segmentation
-This repository contains the main scripts for local linear segmentation and subsequent analysis of the resulting model space, presented in:
+This repository contains the main scripts for local linear segmentation and subsequent analysis of the resulting model space presented in:
 
 Costa AC, Ahamed T, Stephens GJ "Adaptive, locally-linear models of complex dynamics" 2018 arXiv:1807.09728
 
 Any comments or questions, contact a.c.borgessantosdacosta@vu.nl
 
--------------------------------------------------------------------------------
-------------
+-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
 
 To run the segmentation algorithm, the following steps must be followed:
