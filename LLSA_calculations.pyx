@@ -116,6 +116,7 @@ cpdef get_pred(np.ndarray[np.float64_t, ndim=2] theta,np.ndarray[np.float64_t, n
 
     return pred
 
+
 cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t, ndim=2] y,int lag=1):
     '''
     Computes the loglikelihood of the parameters theta fitting y
@@ -135,7 +136,8 @@ cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t
     cdef int yp_len = yp.shape[0]
 
     cdef np.ndarray[np.float64_t, ndim=2] sigmainv=np.linalg.pinv(sigma)
-    cdef double det_inv_s = pseudo_det(sigmainv)
+    cdef double abs_log_det_inv_s = np.linalg.slogdet(sigmainv)[1]
+    # cdef double abs_log_det_inv_s = np.abs(det_inv_s)
 
     cdef np.ndarray[np.float64_t, ndim=2] beta = np.vstack((inter,coef))
     cdef np.ndarray[np.float64_t, ndim=2] x_inter = np.vstack((np.ones(yp_len),yp.T)).T
@@ -149,10 +151,10 @@ cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t
     for t in unmasked_time:
         eps_t=eps[t]
         last_term+=np.dot(eps_t.T,np.dot(sigmainv,eps_t))
-    cdef double sigma_inv_abs_det = np.abs(det_inv_s)
+
 
     return (-0.5*dim*(T-1)*log(2*M_PI)
-            +0.5*(T-1)*log(sigma_inv_abs_det)
+            +0.5*(T-1)*abs_log_det_inv_s
             -0.5*last_term)
 
 
@@ -323,7 +325,9 @@ def loglik_mvn_masked(theta,y,lag=1):
     yp = get_yp_masked(y,clag)
     sigma=np.array(sigma,dtype=np.float64)
     sigmainv=np.array(np.linalg.pinv(sigma),dtype=np.float64)
-    det_inv_s=pseudo_det(np.array(sigmainv,dtype=np.float64))
+    # det_inv_s=pseudo_det(np.array(sigmainv,dtype=np.float64))
+    abs_log_det_inv_s = np.linalg.slogdet(sigmainv)[1]
+    # sigma_inv_abs_det = np.abs(det_inv_s)
     sel = ~np.logical_or(np.any(yp.mask, axis=1), np.any(yf.mask, axis=1))
     yp_len = yp[sel,:].shape[0]
     yp_dim = yp[sel,:].shape[1]
@@ -342,9 +346,7 @@ def loglik_mvn_masked(theta,y,lag=1):
         eps_t=eps[t]
         element_sum[t]=np.dot(eps_t.T,ma.dot(sigmainv,eps_t))
     last_term=np.sum(element_sum)
-    sigma_inv_abs_det = np.abs(det_inv_s)
-
 
     return (-0.5*dim*(T-1)*log(2*M_PI)
-            +0.5*(T-1)*log(sigma_inv_abs_det)
+            +0.5*(T-1)*abs_log_det_inv_s
             -0.5*last_term)
