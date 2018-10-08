@@ -137,7 +137,7 @@ cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t
 
     cdef np.ndarray[np.float64_t, ndim=2] sigmainv=np.linalg.pinv(sigma)
     sign,value = np.linalg.slogdet(sigmainv)
-    cdef double abs_log_det_inv_s = sign*value
+    cdef double abs_log_det_inv_s = value
     # cdef double abs_log_det_inv_s = np.abs(det_inv_s)
 
     cdef np.ndarray[np.float64_t, ndim=2] beta = np.vstack((inter,coef))
