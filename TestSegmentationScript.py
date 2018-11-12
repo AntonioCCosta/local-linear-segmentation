@@ -4,6 +4,7 @@ import numpy.ma as ma
 import sys
 import argparse
 import h5py
+sys.path.append('./segmentation_code/')
 import LLSA as lvar
 import LLSA_calculations as lvarc
 
@@ -35,7 +36,7 @@ def main(argv):
     print('Candidate windows: ', w)
 
     print('Loading the time series...')
-    tseries_path='Sample_tseries.h5'
+    tseries_path='./sample_data/Sample_tseries.h5'
     f=h5py.File(tseries_path,'r')
     thetas_gen=np.array(f['MetaData/thetas_gen'])
     frameRate=np.array(f['MetaData/FrameRate'])[0]
