@@ -17,7 +17,7 @@ To run the segmentation algorithm, the following steps must be followed:
 - cython, scikit-learn, h5py
 
 
-2. - run the 'setup.py' file which compiles the 'LLSA_calculations.pyx' cython script
+2. - run the 'setup.py' file which compiles the 'LLSA_calculations.pyx' cython script ('setup.py' is in the 'segmentation_code' folder)
 
 python setup.py build_ext --inplace
 
@@ -50,3 +50,5 @@ python TestSegmentationScript.py -n 1000 -min_w 6 -s 0.1 -per 97.5
 'LLSA_calculations.pyx' is a cython script with the main functions used in the segmentation (such as "get_theta" which fits a linear model, or "R_null" which draws the null likelihood distribution)
 
 The resulting model space can be analysed by likelihood hierarchical clustering using 'Distance_calculations.py', which computes the likelihood distance matrix, performs hierarchical clustering, and returns the corresponding models
+
+For applications in high-dimensional systems, the conservative minimum window size obtained using the condition number threshold on the entire time series might be too long, depending on the inherent correlation time of the dynamics and the sampling rate. In this situation, regularization can be added on short time scales. An example of the implementation of such a regularization is in 'SegmentingVisAl_regularization.ipynb'
