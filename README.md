@@ -45,10 +45,10 @@ python TestSegmentationScript.py -n 1000 -min_w 6 -s 0.1 -per 97.5
 
 'TestSegmentationScript.py' applies the segmentation algorithm to the time series from 'SampleTseries.h5'. The details of the simulation can be found in the 'MetaData' folder of 'SampleTseries.h5' and for more intuition follow the 'SegmentingHO.ipynb' tutorial.
 
-'LLSA.py' contains the main skeleton of the segmentation algorithm
+'LLSA.py' contains the main skeleton of the segmentation algorithm.
 
-'LLSA_calculations.pyx' is a cython script with the main functions used in the segmentation (such as "get_theta" which fits a linear model, or "R_null" which draws the null likelihood distribution)
+'LLSA_calculations.pyx' is a cython script with the main functions used in the segmentation (such as "get_theta" which fits a linear model, or "R_null" which draws the null likelihood distribution).
 
-The resulting model space can be analysed by likelihood hierarchical clustering using 'Distance_calculations.py', which computes the likelihood distance matrix, performs hierarchical clustering, and returns the corresponding models
+The resulting model space can be analysed by likelihood hierarchical clustering using 'Distance_calculations.py', which computes the likelihood distance matrix, performs hierarchical clustering, and returns the corresponding models.
 
-For applications in high-dimensional systems, the conservative minimum window size obtained using the condition number threshold on the entire time series might be too long, depending on the inherent correlation time of the dynamics and the sampling rate. In this situation, regularization can be added on short time scales. An example of the implementation of such a regularization is in 'SegmentingVisAl_regularization.ipynb'
+For applications in high-dimensional systems, the conservative minimum window size obtained using the condition number threshold on the entire time series might be too long, depending on the inherent correlation time of the dynamics and the sampling rate. In this situation, regularization can be added on short time scales. An example of the implementation of such a regularization is in 'SegmentingVisAl_regularization.ipynb'.
