@@ -16,7 +16,17 @@ cpdef decomposed_theta(np.ndarray[np.float64_t, ndim=2] theta, int lag=1):
     cdef double[:, :] cov = theta[clag*dim+1:]
     return inter,coef,cov
 
+# cpdef pseudo_det(np.ndarray[np.float64_t, ndim=2] X, thresh = 1e-15):
+#     '''
+#     Estimates the pseudo-determinant of X
+#     '''
+#     eig_values = np.linalg.eig(X)[0]
+#     if np.all(eig_values<thresh):
+#         return False
+#     cdef double eig_product = np.product(eig_values[eig_values>thresh]).real
+#     return eig_product
 
+#replaced by np.linalg.slogdet
 
 cpdef get_yp(np.ndarray[np.float64_t, ndim=2] y, int lag=1):
     cdef int clag = lag
@@ -116,7 +126,6 @@ cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t
     cdef int T = y.shape[0]
     cdef int dim = y.shape[1]
     cdef int clag = lag
-
     inter,coef,sigma=decomposed_theta(theta,clag)
     cdef int y_len = y.shape[0]
     cdef int y_dim = y.shape[1]
@@ -136,6 +145,7 @@ cpdef loglik_mvn(np.ndarray[np.float64_t, ndim=2] theta, np.ndarray[np.float64_t
     cdef np.ndarray[np.float64_t, ndim=2] beta = np.vstack((inter,coef))
     cdef np.ndarray[np.float64_t, ndim=2] x_inter = np.vstack((np.ones(yp_len),yp.T)).T
     cdef np.ndarray[np.float64_t, ndim=2] pred = np.dot(x_inter,beta)
+
     cdef np.ndarray[np.float64_t, ndim=2] eps = yf-pred
     cdef int eps_len = eps.shape[0]
     cdef np.ndarray[np.float64_t, ndim=1] element_sum = np.zeros(eps_len,dtype=np.float64)
@@ -327,6 +337,7 @@ def loglik_mvn_masked(theta,y,lag=1):
     x_inter=np.vstack((np.ones(yp_len),yp[sel,:].T)).T
     beta=np.vstack((inter,coef))
     pred=ma.zeros((yf.shape[0],yf.shape[1]))
+
     pred[sel,:]=np.dot(x_inter,beta)
     pred[~sel]=ma.masked
     pred=ma.vstack((y[:clag],pred))

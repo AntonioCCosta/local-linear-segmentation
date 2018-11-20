@@ -3,7 +3,8 @@ import numpy.ma as ma
 #Ignore warnings
 import warnings
 #cython script with main functions
-import SPCR_calculations as lvar_c
+import SPCR_calculations_final as lvar_c
+import matplotlib.pyplot as plt
 
 np.seterr(divide='ignore')
 warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
@@ -21,7 +22,7 @@ def test(window1,window2,theta_1,theta_2,N,per,lag=1):
     else:
         return True
 
-def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e6):
+def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e5):
     '''
     Returns the break found after t, iterating over a set of candidate windows
     tseries is the time series we want to segment
@@ -32,13 +33,13 @@ def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e6):
     for i in range(len(windows)-1):
         window1=np.array(tseries[t:t+windows[i]])
         window2=np.array(tseries[t:t+windows[i+1]])
+        # print(window1,window2)
         X=window2-window2.mean(axis=0)
         cov=np.cov(X.T)
         eigvals,eigvecs=np.linalg.eig(cov)
         indices=np.argsort(eigvals.real)[::-1]
         eigvals=eigvals.real[indices]
         eigvecs=eigvecs.real[:,indices]
-        var_exp=np.cumsum(eigvals)/np.sum(eigvals)
         dim=window2.shape[1]
         theta_1,eps=lvar_c.get_theta(window1)
         c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
@@ -50,6 +51,11 @@ def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e6):
             c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
         if dim==1:
             dim=2
+
+        window1_pca=np.array(window1.dot(eigvecs[:,:dim]),dtype=np.float64)
+        window2_pca=np.array(window2.dot(eigvecs[:,:dim]),dtype=np.float64)
+
+        theta_1,eps=lvar_c.get_theta(window1_pca)
         theta_2,eps=lvar_c.get_theta(window2_pca)
         if test(window1_pca,window2_pca,theta_1,theta_2,N,per,lag):
             return windows[i]
@@ -94,9 +100,8 @@ def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e6):
                 indices=np.argsort(eigvals.real)[::-1]
                 eigvals=eigvals.real[indices]
                 eigvecs=eigvecs.real[:,indices]
-                var_exp=np.cumsum(eigvals)/np.sum(eigvals)
-                dim=w2.shape[1]
-                theta_1,eps=lvar_c.get_theta(w1)
+                dim=window2.shape[1]
+                theta_1,eps=lvar_c.get_theta(window1)
                 c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
                 while np.linalg.cond(cov1)>cond_thresh:
                     dim-=1
@@ -106,6 +111,7 @@ def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e6):
                     c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
                 if dim==1:
                     dim=2
+                theta_1,eps=lvar_c.get_theta(window1_pca)
                 theta_2,eps=lvar_c.get_theta(window2_pca)
                 first_test=test(window1_pca,window2_pca,theta_1,theta_2,N,per,lag)
                 if first_test:
@@ -216,3 +222,41 @@ def change_point(w,N,per,tseries,min_size,lag=1,cond_thresh=1e6):
 def getChangePoints(tseries_w,w,N,per,worm):
     results=[change_point(w,N,per,tseries) for tseries in tseries_w]
     return results
+
+def transform_theta(theta,weigvecs):
+    c,A,cov=lvar_c.decomposed_theta(theta)
+    c_full=np.dot(weigvecs,c)
+    A_full=np.dot(weigvecs,np.dot(A,weigvecs.T))
+    cov_full=np.dot(weigvecs,np.dot(cov,weigvecs.T))
+    return np.vstack((c_full,A_full,cov_full))
+
+def pca_data(ts,cond_thresh=1e5):
+    X=ts-ts.mean(axis=0)
+    cov=np.cov(X.T)
+    eigvals,eigvecs=np.linalg.eig(cov)
+    indices=np.argsort(eigvals.real)[::-1]
+    eigvals=eigvals.real[indices]
+    eigvecs=eigvecs.real[:,indices]
+    theta1,eps=lvar_c.get_theta(ts)
+    c1,A1,cov1=lvar_c.decomposed_theta(theta1)
+    dim=ts.shape[1]
+    while np.linalg.cond(cov1)>cond_thresh:
+        dim-=1
+
+        window_pca=np.array(ts.dot(eigvecs[:,:dim]),dtype=np.float64)
+        theta1,eps=lvar_c.get_theta(window_pca)
+        c1,A1,cov1=lvar_c.decomposed_theta(theta1)
+    if dim==1:
+        dim=2
+    window_pca=np.array(ts.dot(eigvecs[:,:dim]),dtype=np.float64)
+    y=window_pca
+    return y,eigvecs[:,:dim],ts.mean(axis=0),dim
+
+def pca_theta_coef(ts,frameRate,lag=1,cond_thresh=1e5):
+    y,weigvecs,mean,dim=pca_data(ts,cond_thresh)
+    theta,eps=lvar_c.get_theta(y,lag)
+    full_d_theta=transform_theta(theta,weigvecs)
+    c,A,cov=lvar_c.decomposed_theta(theta)
+    coef=(A-np.identity(A.shape[1]))*frameRate
+    coef_full=np.dot(weigvecs,np.dot(coef,weigvecs.T))
+    return full_d_theta,coef_full
