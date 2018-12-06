@@ -3,7 +3,7 @@ This repository contains the main scripts for local linear segmentation and subs
 
 Costa AC, Ahamed T, Stephens GJ "Adaptive, locally-linear models of complex dynamics" 2018 arXiv:1807.09728
 
-Any comments or questions, contact a.c.borgessantosdacosta@vu.nl
+Any comments or questions, contact a.c.borgessantosdacosta@vu.nl. Also, suggestions to speed up the code are more than welcome!
 
 -------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------
