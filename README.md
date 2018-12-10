@@ -27,6 +27,8 @@ In order to the able to run the .ipynb tutorials, you'll also need jupyter and s
 
 (a) - 'SegmentingHO.ipynb' and (b) - 'SegmentingWormBehavior.ipynb' are two complementary tutorials on how to apply the adaptive locally-linear segmentation. In (a), a toy time series is segmented and hierarchical clustering is applied to obtain the original model parameters. In (b), a sample C. elegans "eigenworm" time series is analysed, in which the worm is subject to a heat shock to the head that triggers an escape response, [1]. The sampled time series start at the initiation of the escape response, which is broadly composed of a reversal, a turn, and forward movement in a different direction, away from the stimulus. 
 
+For applications in high-dimensional systems, the conservative minimum window size obtained using the condition number threshold on the entire time series might be too long, depending on the inherent correlation time of the dynamics and the sampling rate. In this situation, regularization can be added on short time scales. An example of the implementation of such a regularization is in 'SegmentingVisAl_regularization.ipynb'.
+
 [1] - Broekmans O, Rodgers J, Ruy S, Stephens GJ "Resolving coiled shapes reveals new reorientation behaviors in C. elegans" eLife 2016;5:e17227
 
 -------------------------------------------------------------------------------------------
@@ -51,4 +53,4 @@ python TestSegmentationScript.py -n 1000 -min_w 6 -s 0.1 -per 97.5
 
 The resulting model space can be analysed by likelihood hierarchical clustering using 'Distance_calculations.py', which computes the likelihood distance matrix, performs hierarchical clustering, and returns the corresponding models.
 
-For applications in high-dimensional systems, the conservative minimum window size obtained using the condition number threshold on the entire time series might be too long, depending on the inherent correlation time of the dynamics and the sampling rate. In this situation, regularization can be added on short time scales. An example of the implementation of such a regularization is in 'SegmentingVisAl_regularization.ipynb'.
+The analysis pipeline can be significantly sped-up by introducing parallel processing in a few places. 
