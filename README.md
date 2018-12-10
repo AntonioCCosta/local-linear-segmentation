@@ -53,4 +53,12 @@ python TestSegmentationScript.py -n 1000 -min_w 6 -s 0.1 -per 97.5
 
 The resulting model space can be analysed by likelihood hierarchical clustering using 'Distance_calculations.py', which computes the likelihood distance matrix, performs hierarchical clustering, and returns the corresponding models.
 
-The analysis pipeline can be significantly sped-up by introducing parallel processing in a few places. 
+The analysis pipeline can be significantly sped-up by introducing parallel processing in a few places. Examples include:
+
+1) Likelihood ratio distribution: we need to do the exact same calculation N times
+
+2) Parallelize over different time series, or pre-split the time series into chunks and parallelize over them
+
+3) In the calculation of the distance matrix we can both parallelize one of the loops and also only compute the upper triangular or lower triangular matrix since, by construction, the matrix will be symmetric
+
+For a discussion of such implementations see SegmentationHO.ipynb
