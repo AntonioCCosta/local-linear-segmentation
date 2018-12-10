@@ -61,4 +61,4 @@ The analysis pipeline can be significantly sped-up by introducing parallel proce
 
 3) In the calculation of the distance matrix we can both parallelize one of the loops and also only compute the upper triangular or lower triangular matrix since, by construction, the matrix will be symmetric
 
-For a discussion of such implementations see SegmentationHO.ipynb
+For a discussion of such implementations see 'SegmentationHO.ipynb'
