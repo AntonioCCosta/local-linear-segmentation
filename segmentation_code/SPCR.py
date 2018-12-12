@@ -3,8 +3,7 @@ import numpy.ma as ma
 #Ignore warnings
 import warnings
 #cython script with main functions
-import SPCR_calculations_final as lvar_c
-import matplotlib.pyplot as plt
+import SPCR_calculations as lvar_c
 
 np.seterr(divide='ignore')
 warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
@@ -64,7 +63,7 @@ def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e5):
     #if no break is found, return the last candidate window
     return windows[i+1]
 
-def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e6):
+def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e5):
     '''
     Look around each break to identify weather it was real or artificial
     ts is the time series we which to segment
@@ -100,8 +99,8 @@ def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e6):
                 indices=np.argsort(eigvals.real)[::-1]
                 eigvals=eigvals.real[indices]
                 eigvecs=eigvecs.real[:,indices]
-                dim=window2.shape[1]
-                theta_1,eps=lvar_c.get_theta(window1)
+                dim=w2.shape[1]
+                theta_1,eps=lvar_c.get_theta(w1)
                 c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
                 while np.linalg.cond(cov1)>cond_thresh:
                     dim-=1
@@ -256,7 +255,6 @@ def pca_theta_coef(ts,frameRate,lag=1,cond_thresh=1e5):
     y,weigvecs,mean,dim=pca_data(ts,cond_thresh)
     theta,eps=lvar_c.get_theta(y,lag)
     full_d_theta=transform_theta(theta,weigvecs)
-    c,A,cov=lvar_c.decomposed_theta(theta)
-    coef=(A-np.identity(A.shape[1]))*frameRate
-    coef_full=np.dot(weigvecs,np.dot(coef,weigvecs.T))
+    c,A,cov=lvar_c.decomposed_theta(full_d_theta)
+    coef_full=(A-np.identity(A.shape[1]))*frameRate
     return full_d_theta,coef_full
