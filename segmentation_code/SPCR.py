@@ -45,11 +45,15 @@ def r_window(tseries,t,windows,N,per,lag=1,cond_thresh=1e5):
         while np.linalg.cond(cov1)>cond_thresh:
             dim-=1
             if dim<2:
+                dim=2
                 break
             window1_pca=np.array(window1.dot(eigvecs[:,:dim]),dtype=np.float64)
             window2_pca=np.array(window2.dot(eigvecs[:,:dim]),dtype=np.float64)
             theta_1,eps=lvar_c.get_theta(window1_pca)
             c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
+        window1_pca=np.array(window1.dot(eigvecs[:,:dim]),dtype=np.float64)
+        window2_pca=np.array(window2.dot(eigvecs[:,:dim]),dtype=np.float64)
+        theta_1,eps=lvar_c.get_theta(window1_pca)
         theta_2,eps=lvar_c.get_theta(window2_pca)
         if test(window1_pca,window2_pca,theta_1,theta_2,N,per,lag):
             return windows[i]
@@ -100,11 +104,15 @@ def breakfinder(ts,br,w,N,per,lag=1,cond_thresh=1e5):
                 while np.linalg.cond(cov1)>cond_thresh:
                     dim-=1
                     if dim<2:
+                        dim=2
                         break
                     window1_pca=np.array(w1.dot(eigvecs[:,:dim]),dtype=np.float64)
                     window2_pca=np.array(w2.dot(eigvecs[:,:dim]),dtype=np.float64)
                     theta_1,eps=lvar_c.get_theta(window1_pca)
                     c1,A1,cov1=lvar_c.decomposed_theta(theta_1)
+                window1_pca=np.array(w1.dot(eigvecs[:,:dim]),dtype=np.float64)
+                window2_pca=np.array(w2.dot(eigvecs[:,:dim]),dtype=np.float64)
+                theta_1,eps=lvar_c.get_theta(window1_pca)
                 theta_2,eps=lvar_c.get_theta(window2_pca)
                 first_test=test(window1_pca,window2_pca,theta_1,theta_2,N,per,lag)
                 if first_test:
