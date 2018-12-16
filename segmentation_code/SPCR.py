@@ -241,16 +241,16 @@ def pca_data(ts,cond_thresh=1e5):
     theta1,eps=lvar_c.get_theta(ts)
     c1,A1,cov1=lvar_c.decomposed_theta(theta1)
     dim=ts.shape[1]
+    if np.linalg.cond(cov1)<=cond_thresh:
+        return ts,eigvecs[:,dim]
     while np.linalg.cond(cov1)>cond_thresh:
         dim-=1
         if dim<2:
             break
-
         window_pca=np.array(ts.dot(eigvecs[:,:dim]),dtype=np.float64)
         theta1,eps=lvar_c.get_theta(window_pca)
         c1,A1,cov1=lvar_c.decomposed_theta(theta1)
-    y=window_pca
-    return y,eigvecs[:,:dim]
+    return window_pca,eigvecs[:,:dim]
 
 def pca_theta_coef(ts,frameRate,lag=1,cond_thresh=1e5):
     y,weigvecs=pca_data(ts,cond_thresh)
