@@ -246,6 +246,7 @@ def pca_data(ts,cond_thresh=1e5):
     while np.linalg.cond(cov1)>cond_thresh:
         dim-=1
         if dim<2:
+            dim=2
             break
         window_pca=np.array(ts.dot(eigvecs[:,:dim]),dtype=np.float64)
         theta1,eps=lvar_c.get_theta(window_pca)
