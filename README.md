@@ -75,12 +75,14 @@ For a discussion of such implementations see 'SegmentationHO.ipynb'.
 
 The data contained in '\sample_data' consists of three samples in different systems:
 
-1) 'AllenData_sample.h5' is a snippet of Calcium Imaging of hundreds of neurons in the mouse VisAl cortex (experiment 511854338). Allen Institute for Brain Science (2016) Allen Brain Observatory. Available at observatory.brain-map.org/visualcoding/.
+1) 'AllenData_sample.h5' is a snippet of Calcium imaging of hundreds of neurons in the mouse VisAl cortex. Data was obtained from the Allen Institute [2] (experiment 511854338). 
 
 2) 'Sample_tseries.h5' is a simulation of a set of harmonic oscillators that reverse direction.
 
-3) 'worm_tseries.h5' is a snippet of a laser induced escape response of C. elegans. The full dataset is published in the Dryad Digital Repository [2].
+3) 'worm_tseries.h5' is a snippet of a laser induced escape response of C. elegans. The full dataset is published in the Dryad Digital Repository [3].
 
 [1] - Broekmans O, Rodgers J, Ruy S, Stephens GJ (2016) "Resolving coiled shapes reveals new reorientation behaviors in C. elegans" eLife 2016;5:e17227; https://doi.org/10.7554/elife.17227
 
-[2] - Broekmans OD, Rodgers JB, Ryu WS, Stephens GJ (2016) Data from: Resolving coiled shapes reveals new reorientation behaviors in C. elegans. Dryad Digital Repository. https://doi.org/10.5061/dryad.t0m6p
+[2] - Allen Institute for Brain Science (2016) Allen Brain Observatory. Available at observatory.brain-map.org/visualcoding/.
+
+[3] - Broekmans OD, Rodgers JB, Ryu WS, Stephens GJ (2016) Data from: Resolving coiled shapes reveals new reorientation behaviors in C. elegans. Dryad Digital Repository. https://doi.org/10.5061/dryad.t0m6p
