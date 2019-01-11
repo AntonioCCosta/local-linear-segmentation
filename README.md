@@ -83,6 +83,6 @@ The data contained in '\sample_data' consists of three samples in different syst
 
 [1] - Broekmans O, Rodgers J, Ruy S, Stephens GJ (2016) "Resolving coiled shapes reveals new reorientation behaviors in C. elegans" eLife 2016;5:e17227; https://doi.org/10.7554/elife.17227
 
-[2] - Allen Institute for Brain Science (2016) Allen Brain Observatory. Available at observatory.brain-map.org/visualcoding/
+[2] - Allen Institute for Brain Science (2016) Allen Brain Observatory. Available at http://observatory.brain-map.org/visualcoding/
 
 [3] - Broekmans OD, Rodgers JB, Ryu WS, Stephens GJ (2016) Data from: Resolving coiled shapes reveals new reorientation behaviors in C. elegans. Dryad Digital Repository. https://doi.org/10.5061/dryad.t0m6p
