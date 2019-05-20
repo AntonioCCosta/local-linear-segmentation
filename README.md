@@ -16,6 +16,8 @@ To run the segmentation algorithm, the following steps must be followed:
 - scipy, numpy, matplotlib
 - cython, scikit-learn, h5py
 
+(tested with scipy-1.1.0, numpy-1.15.2, matplotlib-3.0.0, cython-0.28.5, scikit-learn-0.20.0 and h5py-2.8.0)
+
 
 2. - run the 'setup.py' file which compiles the 'LLSA_calculations.pyx' cython script ('setup.py' is in the 'segmentation_code' folder)
 
