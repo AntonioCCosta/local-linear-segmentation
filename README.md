@@ -1,7 +1,7 @@
 # local-linear-segmentation
 This repository contains the main scripts for local linear segmentation and subsequent analysis of the resulting model space presented in:
 
-Costa AC, Ahamed T, Stephens GJ "Adaptive, locally-linear models of complex dynamics" 2018 arXiv:1807.09728
+Costa AC, Ahamed T, Stephens GJ (2019) "Adaptive, locally-linear models of complex dynamics" PNAS https://doi.org/10.1073/pnas.1813476116
 
 Any comments or questions, contact a.c.borgessantosdacosta@vu.nl. Also, suggestions to speed up the code are more than welcome!
 
