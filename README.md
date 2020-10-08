@@ -3,7 +3,7 @@ This repository contains the main scripts for local linear segmentation and subs
 
 Costa AC, Ahamed T, Stephens GJ (2019) "Adaptive, locally-linear models of complex dynamics" PNAS https://doi.org/10.1073/pnas.1813476116
 
-Any comments or questions, contact a.c.borgessantosdacosta@vu.nl. Also, suggestions to speed up the code are more than welcome!
+Any comments or questions, contact antoniocbscosta(at)gmail(dot)com. Also, suggestions to speed up the code are more than welcome!
 
 As good practice, we advise users to make sure their data is appropriate before applying this method. Post-processing to reduce the amount of spurious or noisy data in your time series will ensure that the results are more easily interpretable. In addition, choosing the right measurements can be of crucial importance. If your time series is multi-dimensional, try to make sure that the different dimensions are not linearly dependent. Our method ensures that linear reression on the shortest window is well-conditioned, so getting rid of collinearity as much as possible is an advantage, since it allows to probe shorter time scales.
 
